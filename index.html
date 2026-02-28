@@ -810,7 +810,7 @@ svg.ring circle { transition: stroke-dashoffset 0.4s ease; }
           </div>
           <div class="export-row">
             <button class="export-btn secondary" id="exportHtmlBtn">🌐 HTML Report</button>
-            <button class="export-btn secondary" id="exportSingleJsonBtn">💾 Save This Card</button>
+            <button class="export-btn secondary" id="exportDcmBtn" title="Export all participants to DCMI XML">📦 Export DCMI (XML)</button>
           </div>
         </div>
         <div class="sources-note">
@@ -880,7 +880,7 @@ svg.ring circle { transition: stroke-dashoffset 0.4s ease; }
       <h3>PHASE 3: THE ENVIRONMENT (Psychological Safety)</h3>
       <p>Psychological safety matters more than content. Create zones (Quiet vs. Buzz), de-risk the authority so asking questions is a sign of intelligence, and manage the pressure based on whether learners are stress-driven or calm-driven.</p>
 
-      <h3>PHASE 4: THE TOOLKIT (The Digital & Practical)</h3>
+<h3>PHASE 4: THE TOOLKIT (The Digital & Practical)</h3>
       <p>Introducing new digital tools often fails because the teaching style does not match the learning style. Tailor the digital onboarding:</p>
       <ul>
         <li><strong>The Sandbox (Experimental Learners):</strong> Provide a dummy account where they can practice with zero consequences.</li>
@@ -888,6 +888,16 @@ svg.ring circle { transition: stroke-dashoffset 0.4s ease; }
         <li><strong>The Hybrid (Mixed Learners):</strong> Let them explore first, then give them a reference PDF when they get stuck.</li>
         <li><strong>The Overwhelmed Learner (Digital Anxiety):</strong> Start with micro-tasks, sit beside them, and provide the simplest possible version.</li>
       </ul>
+
+      <div style="background: rgba(74,144,196,0.05); border: 1px solid rgba(74,144,196,0.2); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+        <p style="margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; color: var(--sky);">Beyond the Screen: Non-Digital Relevance</p>
+        <p style="font-size: 0.9rem; margin-bottom: 0.6rem;">Although Phase 4 uses software terminology, these indicators map a person's general cognitive psychology when facing <em>any</em> new system or environment:</p>
+        <ul style="margin-bottom: 0; padding-left: 1.2rem; font-size: 0.9rem;">
+          <li><strong style="color: var(--navy);">Explorer vs. Structured:</strong> In the physical world, this separates the learner who immediately tries to assemble a physical tool by hand versus the one who reads the printed manual first.</li>
+          <li><strong style="color: var(--navy);">Digital Anxiety:</strong> This is a direct behavioral proxy for cognitive vulnerability to uncertainty and change.</li>
+          <li><strong style="color: var(--navy);">Stress vs. Calm:</strong> This reflects the brain's mechanics based on the Yerkes-Dodson Law. It applies to all high-pressure activities (like public speaking or emergency field tasks), not just digital interfaces.</li>
+        </ul>
+      </div>
 
       <div style="text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
         <a href="https://www.linkedin.com/pulse/user-manual-human-learners-guide-teachers-managers-conni-saputra-r5itc" target="_blank" class="export-btn primary" style="display: inline-flex; text-decoration: none; padding: 0.8rem 1.5rem; font-size: 1rem;">
@@ -1398,6 +1408,55 @@ function loadJson(e) {
   e.target.value = '';
 }
 
+function escapeXml(unsafe) {
+  return unsafe.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<': return '&lt;'; case '>': return '&gt;';
+      case '&': return '&amp;'; case '\'': return '&apos;'; case '"': return '&quot;';
+    }
+  });
+}
+
+function exportDCMI() {
+  if (learners.length === 0) return toast('No data to export', 'error');
+
+  // Membuat struktur header XML dengan standard Dublin Core namespaces
+  let xmlString = `<?xml version="1.0" encoding="UTF-8"?>\n<metadata xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">\n`;
+
+  learners.forEach(l => {
+    const p = computeProfile(l.answers);
+    
+    // Membersihkan emoji dari chips agar metadata XML tetap bersih dan terbaca mesin
+    const mot = p.motChips.map(c => c.lbl.replace(/[^\w\s-]/gi, '').trim()).join(', ');
+    const env = p.envChips.map(c => c.lbl.replace(/[^\w\s-]/gi, '').trim()).join(', ');
+    const dig = p.digChips.map(c => c.lbl.replace(/[^\w\s-]/gi, '').trim()).join(', ');
+
+    xmlString += `  <oai_dc:dc>\n`;
+    // PERBAIKAN: Mengganti karakter '&' menjadi '&amp;' sesuai standar wajib XML
+    xmlString += `    <dc:title>${escapeXml(l.name)} - Cognitive &amp; Behavioral Profile</dc:title>\n`;
+    xmlString += `    <dc:creator>Learner ID Tool</dc:creator>\n`;
+    xmlString += `    <dc:date>${l.createdAt}</dc:date>\n`;
+    xmlString += `    <dc:description>Primary Style: ${escapeXml(p.primary)}. Processing: ${escapeXml(p.processing)}. Thinking: ${escapeXml(p.thinking)}. Communication: ${escapeXml(p.communication)}. Motivation: ${mot}. Environment: ${env}. Digital Style: ${dig}.</dc:description>\n`;
+    xmlString += `    <dc:subject>Educational Psychology; Cognitive Profile; Learning Styles; Instructional Design</dc:subject>\n`;
+    xmlString += `    <dc:type>Dataset</dc:type>\n`;
+    xmlString += `    <dc:format>application/xml</dc:format>\n`;
+    xmlString += `    <dc:coverage>Instructional Friction Analysis</dc:coverage>\n`;
+    xmlString += `  </oai_dc:dc>\n`;
+  });
+
+  xmlString += `</metadata>`;
+
+  const blob = new Blob([xmlString], {type: 'application/xml;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `learner_profiles_dcmi_${new Date().toISOString().slice(0,10)}.xml`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('DCMI XML Exported');
+}
+
+
 // ==================== EXPORT CSV ====================
 function exportCSV() {
   const headers = ['Name','Primary Style','Processing','Thinking','Communication','Motivation','Environment','Digital','Recommendations'];
@@ -1478,7 +1537,7 @@ $('exportHtmlBtn').addEventListener('click', exportHTML);
 $('guidanceBtn').addEventListener('click', () => { $('guidanceModal').classList.add('show'); });
 $('closeGuidanceBtn').addEventListener('click', () => { $('guidanceModal').classList.remove('show'); });
 $('guidanceModal').addEventListener('click', e => { if(e.target === $('guidanceModal')) $('guidanceModal').classList.remove('show'); });
-$('exportSingleJsonBtn').addEventListener('click', saveSingleJson);
+$('exportDcmBtn').addEventListener('click', exportDCMI);
 $('loadSampleBtn').addEventListener('click', loadSampleData);
 
 
