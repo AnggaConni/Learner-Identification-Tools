@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Learner ID · Research-Backed Learning Profiles</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy-mid: #162332;
+  --navy-light: #1e3448;
+  --steel: #2c4a65;
+  --sky: #4a90c4;
+  --sky-light: #7eb8e0;
+  --amber: #e8a940;
+  --amber-light: #f5c96a;
+  --cream: #f5f0e8;
+  --slate: #94aec4;
+  --white: #ffffff;
+  --bg: #f2ede6;
+  --card-bg: #fffcf7;
+  --border: #ddd5c8;
+  --text: #1a2634;
+  --muted: #6b7f8e;
+  --success: #4caf86;
+  --warn: #e87a40;
+  --shadow-card: 0 8px 40px -8px rgba(13,27,42,0.18);
+  --shadow-hover: 0 16px 56px -12px rgba(13,27,42,0.28);
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 100px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(74,144,196,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 80%, rgba(232,169,64,0.06) 0%, transparent 60%);
+  min-height: 100vh;
+  color: var(--text);
+}
+header {
+  background: var(--navy);
+  background-image: radial-gradient(ellipse at 20% 50%, #1e3a5a 0%, var(--navy) 70%);
+  padding: 2.8rem 2rem 2.2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: -80px;
+  width: 300px; height: 300px;
+  border: 1px solid rgba(74,144,196,0.15);
+  border-radius: 50%;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; right: -60px;
+  width: 280px; height: 280px;
+  border: 1px solid rgba(232,169,64,0.12);
+  border-radius: 50%;
+}
+.header-inner { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+header h1 span { color: var(--amber); }
+header p {
+  color: var(--slate);
+  font-size: 0.98rem;
+  margin-top: 0.7rem;
+  font-weight: 300;
+  line-height: 1.6;
+}
+.header-badges {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+}
+.hbadge {
+  background: rgba(74,144,196,0.15);
+  border: 1px solid rgba(74,144,196,0.3);
+  color: var(--sky-light);
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--r-pill);
+  font-size: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.3px;
+}
+.app { max-width: 1480px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+.layout { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.8rem; align-items: start; }
+@media (max-width: 1100px) { .layout { grid-template-columns: 1fr; } }
+.card {
+  background: var(--card-bg);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.card-header {
+  padding: 1.5rem 1.8rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.card-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.card-header .icon {
+  width: 36px; height: 36px;
+  background: var(--navy);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.card-body { padding: 1.6rem 1.8rem; }
+.learner-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  background: #f0ebe2;
+  border-radius: var(--r-pill);
+  padding: 0.7rem 1.2rem;
+  margin-bottom: 1.8rem;
+  border: 1px solid var(--border);
+}
+.toolbar-group { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.learner-toolbar select {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 0.5rem 2.2rem 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230d1b2a' stroke-width='2.5'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  transition: border-color 0.15s;
+}
+.learner-toolbar select:focus { outline: none; border-color: var(--sky); }
+.tbtn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: var(--navy);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tbtn:hover { background: #e4dfd6; border-color: #c0b8ad; }
+.tbtn.danger { color: #8b2020; border-color: #e0b0b0; background: #fff5f5; }
+.tbtn.danger:hover { background: #ffe0e0; }
+.tbtn.accent { background: var(--navy); color: white; border-color: var(--navy); }
+.tbtn.accent:hover { background: var(--navy-light); }
+.learner-count { margin-left: auto; font-size: 0.78rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+.phase-section { margin-bottom: 1.6rem; }
+.phase-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--border);
+}
+.phase-badge {
+  background: var(--navy);
+  color: var(--amber);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--r-pill);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.phase-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.question-item {
+  background: #faf8f5;
+  border-radius: var(--r-lg);
+  padding: 1rem 1.2rem;
+  border: 1.5px solid #e8e1d6;
+  margin-bottom: 0.8rem;
+  transition: border-color 0.15s;
+}
+.question-item:hover { border-color: var(--sky); }
+.q-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 0.7rem;
+  line-height: 1.45;
+}
+.q-options { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.q-option {
+  display: flex; align-items: center; gap: 5px;
+  background: white;
+  border: 1.5px solid #ddd5c8;
+  border-radius: var(--r-pill);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.q-option:hover { border-color: var(--sky); color: var(--sky); background: #f0f8ff; }
+.q-option.sel-often { background: var(--navy); border-color: var(--navy); color: white; }
+.q-option.sel-sometimes { background: #e8f3fb; border-color: var(--sky); color: var(--sky); }
+.q-option.sel-rarely { background: #f5f5f5; border-color: #ccc; color: #888; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; display: inline-block; flex-shrink: 0; }
+.id-panel {
+  background: var(--navy);
+  background-image: radial-gradient(ellipse at 15% 30%, #1e3a5a 0%, var(--navy) 70%);
+  border-radius: var(--r-xl);
+  box-shadow: 0 20px 60px -16px rgba(13,27,42,0.5);
+  color: var(--white);
+  position: sticky;
+  top: 1.5rem;
+  overflow: hidden;
+}
+.id-panel::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  border: 1px solid rgba(232,169,64,0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.id-panel-header {
+  padding: 1.5rem 1.8rem 1.2rem;
+  border-bottom: 1px solid rgba(74,144,196,0.2);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.id-panel-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--white);
+}
+.id-panel-header .sub {
+  font-size: 0.75rem;
+  color: var(--slate);
+  margin-left: auto;
+  font-family: 'DM Mono', monospace;
+}
+.id-body { padding: 1.6rem 1.8rem; position: relative; z-index: 1; }
+.id-badge {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(74,144,196,0.25);
+  border-radius: var(--r-lg);
+  padding: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+.id-learner-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+}
+.id-subtitle {
+  font-size: 0.78rem;
+  color: var(--slate);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+.id-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.65rem;
+}
+.id-lbl {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--sky-light);
+  width: 90px;
+  flex-shrink: 0;
+  font-family: 'DM Mono', monospace;
+}
+.id-val {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  flex: 1;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.5rem; }
+.chip {
+  padding: 0.25rem 0.8rem;
+  border-radius: var(--r-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid;
+}
+.chip.blue { background: rgba(74,144,196,0.2); border-color: rgba(74,144,196,0.4); color: #a8d4f0; }
+.chip.amber { background: rgba(232,169,64,0.2); border-color: rgba(232,169,64,0.4); color: #f5d080; }
+.chip.green { background: rgba(76,175,134,0.2); border-color: rgba(76,175,134,0.4); color: #90e0c0; }
+.chip.red { background: rgba(232,100,60,0.15); border-color: rgba(232,100,60,0.3); color: #f0b090; }
+.score-section { margin-bottom: 1.2rem; }
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.score-lbl { font-size: 0.72rem; width: 80px; flex-shrink: 0; color: var(--slate); font-family: 'DM Mono', monospace; }
+.score-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.score-pct { font-size: 0.7rem; color: var(--slate); width: 30px; text-align: right; font-family: 'DM Mono', monospace; }
+.rec-section { margin-top: 0.5rem; }
+.rec-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(74,144,196,0.2);
+}
+.rec-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--sky-light);
+}
+.rec-count {
+  margin-left: auto;
+  background: rgba(74,144,196,0.2);
+  color: var(--sky-light);
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--r-pill);
+  font-size: 0.7rem;
+  font-family: 'DM Mono', monospace;
+}
+.rec-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(74,144,196,0.15);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.rec-item:hover { background: rgba(255,255,255,0.07); border-color: rgba(74,144,196,0.35); }
+.rec-item-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.rec-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.rec-text { font-size: 0.88rem; font-weight: 500; color: var(--white); flex: 1; line-height: 1.4; }
+.rec-expand-btn {
+  background: none;
+  border: 1px solid rgba(74,144,196,0.3);
+  color: var(--sky-light);
+  border-radius: var(--r-pill);
+  padding: 0.15rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: 'DM Mono', monospace;
+  transition: all 0.15s;
+}
+.rec-expand-btn:hover { background: rgba(74,144,196,0.15); }
+.rec-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.rec-detail.open { max-height: 500px; }
+.rec-detail-inner {
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed rgba(74,144,196,0.2);
+}
+.rec-why {
+  font-size: 0.8rem;
+  color: #b0c8e0;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+}
+.rec-how {
+  font-size: 0.78rem;
+  color: #90b8d8;
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+}
+.rec-how strong { color: var(--amber-light); }
+.rec-citation {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(232,169,64,0.12);
+  border: 1px solid rgba(232,169,64,0.25);
+  color: #f0c060;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--r-pill);
+  font-size: 0.68rem;
+  font-family: 'DM Mono', monospace;
+}
+.export-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(74,144,196,0.2);
+}
+.export-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.export-btn {
+  flex: 1;
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0.65rem 1rem;
+  border-radius: var(--r-pill);
+  font-size: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+}
+.export-btn.primary {
+  background: var(--amber);
+  color: var(--navy);
+}
+.export-btn.primary:hover { background: var(--amber-light); }
+.export-btn.secondary {
+  background: rgba(255,255,255,0.08);
+  color: var(--sky-light);
+  border: 1px solid rgba(74,144,196,0.3);
+}
+.export-btn.secondary:hover { background: rgba(255,255,255,0.13); }
+.sources-note {
+  font-size: 0.7rem;
+  color: #5a7a96;
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(74,144,196,0.12);
+  font-family: 'DM Mono', monospace;
+}
+.progress-ring-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(74,144,196,0.15);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.2rem;
+}
+.ring-info { flex: 1; }
+.ring-label { font-size: 0.72rem; color: var(--slate); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.ring-val { font-size: 1.3rem; font-weight: 700; color: var(--white); }
+.ring-sub { font-size: 0.72rem; color: var(--slate); margin-top: 0.1rem; }
+svg.ring circle { transition: stroke-dashoffset 0.4s ease; }
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--navy);
+  color: white;
+  padding: 0.8rem 1.4rem;
+  border-radius: 14px;
+  border-left: 4px solid var(--success);
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 9999;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { border-left-color: var(--warn); }
+.reset-link {
+  color: var(--sky);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.15s;
+}
+.reset-link:hover { text-decoration-color: var(--sky); }
+.divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+.checklist-body { padding: 1.6rem 1.8rem 1rem; }
+
+/* --- CSS UNTUK POPUP GUIDANCE --- */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(13, 27, 42, 0.75); backdrop-filter: blur(5px);
+  z-index: 10000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.modal-content {
+  background: var(--card-bg); border-radius: var(--r-xl);
+  width: 90%; max-width: 850px; max-height: 85vh;
+  overflow-y: auto; padding: 2.5rem 3rem; position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+  transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-overlay.show .modal-content { transform: translateY(0); }
+.modal-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: rgba(74,144,196,0.1); border: none; color: var(--navy);
+  width: 38px; height: 38px; border-radius: 50%;
+  font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: rgba(74,144,196,0.25); color: var(--warn); }
+.guide-section { margin-bottom: 2rem; }
+.guide-section h2 { font-family: 'Playfair Display', serif; color: var(--navy); margin-bottom: 0.5rem; font-size: 1.8rem; }
+.guide-section h3 { font-family: 'Playfair Display', serif; color: var(--steel); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem; margin-top: 1.5rem; font-size: 1.3rem; }
+.guide-section p, .guide-section li { font-size: 0.95rem; line-height: 1.7; color: var(--text); margin-bottom: 0.8rem; }
+.guide-section ul { padding-left: 1.5rem; margin-bottom: 1.2rem; }
+.guide-section strong { color: var(--navy-light); }
+.guide-highlight { background: rgba(74,144,196,0.1); padding: 1rem 1.5rem; border-left: 4px solid var(--sky); border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>🧠 Learner <span>ID</span> · Intelligence Profiles</h1>
+    <p>Research-backed learning profiles using Kolb (1984), Freeman et al. (2014), Ryan & Deci (2000), and Vygotsky (1978). Each recommendation includes detailed guidance and citations.</p>
+    <div class="header-badges">
+      <span class="hbadge">Kolb Experiential Learning</span>
+      <span class="hbadge">Active Learning Meta-Analysis</span>
+      <span class="hbadge">Self-Determination Theory</span>
+      <span class="hbadge">Scaffolding Theory</span>
+      <span class="hbadge">Cognitive Load Theory</span>
+    </div>
+  </div>
+</header>
+
+<div class="app">
+  <div class="layout">
+    <!-- LEFT: Checklist -->
+    <div class="card">
+      <div class="card-header">
+        <div class="icon">📋</div>
+        <h2>Learner Manager &amp; Checklist</h2>
+      </div>
+      <div class="checklist-body">
+        <!-- toolbar -->
+        <div class="learner-toolbar" id="learnerToolbar">
+          <div class="toolbar-group">
+            <select id="learnerSelect"></select>
+            <button class="tbtn accent" id="addBtn">➕ Add</button>
+            <button class="tbtn" id="renameBtn">✏️ Rename</button>
+            <button class="tbtn danger" id="deleteBtn">🗑️ Delete</button>
+          </div>
+          <div class="toolbar-group" style="margin-left:auto; gap:0.4rem;">
+            <span class="learner-count" id="learnerCount">1 learner</span>
+          </div>
+        </div>
+
+        <!-- PHASE 1 -->
+        <div class="phase-section">
+          <div class="phase-label">
+            <span class="phase-badge">Phase 1</span>
+            <span class="phase-title">Input/Output Orientation</span>
+          </div>
+          <div id="phase1"></div>
+        </div>
+        <!-- PHASE 2 -->
+        <div class="phase-section">
+          <div class="phase-label">
+            <span class="phase-badge">Phase 2</span>
+            <span class="phase-title">Cognitive & Language Style</span>
+          </div>
+          <div id="phase2"></div>
+        </div>
+        <!-- PHASE 3 -->
+        <div class="phase-section">
+          <div class="phase-label">
+            <span class="phase-badge">Phase 3</span>
+            <span class="phase-title">Motivation &amp; Environment</span>
+          </div>
+          <div id="phase3"></div>
+        </div>
+        <!-- PHASE 4 -->
+        <div class="phase-section">
+          <div class="phase-label">
+            <span class="phase-badge">Phase 4</span>
+            <span class="phase-title">Digital &amp; Emotional Settings</span>
+          </div>
+          <div id="phase4"></div>
+        </div>
+
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:0.5rem;">
+          <span style="font-size:0.78rem;color:var(--muted);">Completed: <span id="completedCount" style="font-weight:600;color:var(--navy);">0/18</span></span>
+          <span class="reset-link" id="resetBtn">↻ Reset this learner's answers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: ID Card -->
+    <div class="id-panel" id="idPanel">
+      <div class="id-panel-header" style="flex-direction: column; align-items: flex-start; gap: 1rem;">
+        
+        <div style="display: flex; align-items: center; gap: 0.7rem; width: 100%;">
+          <span style="font-size:1.2rem;">🪪</span>
+          <h2>Learner's ID Card</h2>
+          <span class="sub" id="idTimestamp" style="margin-left: auto;">—</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; width: 100%;">
+          <button class="export-btn secondary" id="guidanceBtn" style="padding: 0.35rem 0.8rem; font-size: 0.75rem; min-width: max-content; white-space: nowrap;">📖 Guidance</button>
+          <button class="export-btn secondary" id="loadSampleBtn" style="padding: 0.35rem 0.8rem; font-size: 0.75rem; min-width: max-content; white-space: nowrap;">🧪 Load Sample</button>
+          <button class="export-btn secondary" id="saveJsonBtn" style="padding: 0.35rem 0.8rem; font-size: 0.75rem; min-width: max-content; white-space: nowrap;">💾 Save JSON</button>
+          <label class="export-btn secondary" style="cursor:pointer; padding: 0.35rem 0.8rem; font-size: 0.75rem; min-width: max-content; white-space: nowrap; margin: 0;" title="Load learner profiles from JSON">
+            📂 Load JSON
+            <input type="file" id="loadJsonInput" accept=".json" style="display:none;">
+          </label>
+        </div>
+
+      </div>
+
+
+      <div class="id-body">
+        <!-- Badge -->
+        <div class="id-badge">
+          <div class="id-learner-name" id="idName">—</div>
+          <div class="id-subtitle">LEARNER INTELLIGENCE PROFILE</div>
+          <div class="id-row">
+            <span class="id-lbl">Primary</span>
+            <span class="id-val" id="idPrimary">—</span>
+          </div>
+          <div class="id-row">
+            <span class="id-lbl">Processing</span>
+            <span class="id-val" id="idProcessing">—</span>
+          </div>
+          <div class="id-row">
+            <span class="id-lbl">Thinking</span>
+            <span class="id-val" id="idThinking">—</span>
+          </div>
+          <div class="id-row">
+            <span class="id-lbl">Communication</span>
+            <span class="id-val" id="idComm">—</span>
+          </div>
+          <div class="chip-row" id="idMotChips"></div>
+          <div class="chip-row" id="idEnvChips"></div>
+          <div class="chip-row" id="idDigChips"></div>
+        </div>
+
+        <!-- Score bars -->
+        <div class="score-section">
+          <div class="score-row">
+            <span class="score-lbl">Input</span>
+            <div class="score-track"><div class="score-fill" id="bar-input" style="background:linear-gradient(90deg,#4a90c4,#7eb8e0);"></div></div>
+            <span class="score-pct" id="pct-input">0%</span>
+          </div>
+          <div class="score-row">
+            <span class="score-lbl">Output</span>
+            <div class="score-track"><div class="score-fill" id="bar-output" style="background:linear-gradient(90deg,#e8a940,#f5c96a);"></div></div>
+            <span class="score-pct" id="pct-output">0%</span>
+          </div>
+          <div class="score-row">
+            <span class="score-lbl">Intrinsic</span>
+            <div class="score-track"><div class="score-fill" id="bar-intrinsic" style="background:linear-gradient(90deg,#4caf86,#90e0c0);"></div></div>
+            <span class="score-pct" id="pct-intrinsic">0%</span>
+          </div>
+          <div class="score-row">
+            <span class="score-lbl">Social</span>
+            <div class="score-track"><div class="score-fill" id="bar-social" style="background:linear-gradient(90deg,#9370db,#c0a0f0);"></div></div>
+            <span class="score-pct" id="pct-social">0%</span>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="rec-section">
+          <div class="rec-header">
+            <h3>📘 Research-Backed Guidance</h3>
+            <span class="rec-count" id="recCount">0 items</span>
+          </div>
+          <div id="recList"></div>
+        </div>
+
+        <!-- Export -->
+        <div class="export-section">
+          <div class="export-row">
+            <button class="export-btn primary" id="exportPdfBtn">🖨️ Print / PDF</button>
+            <button class="export-btn secondary" id="exportCsvBtn">📊 Export CSV</button>
+          </div>
+          <div class="export-row">
+            <button class="export-btn secondary" id="exportHtmlBtn">🌐 HTML Report</button>
+            <button class="export-btn secondary" id="exportSingleJsonBtn">💾 Save This Card</button>
+          </div>
+        </div>
+        <div class="sources-note">
+          Kolb (1984) · Freeman et al. (2014) · Ryan &amp; Deci (2000) · Vygotsky (1978) · Sweller (1988) · Bandura (1977) · Yerkes &amp; Dodson (1908) · Mayer (2009)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="guidanceModal">
+  <div class="modal-content">
+    <button class="modal-close" id="closeGuidanceBtn">✕</button>
+    
+    <div class="guide-section">
+      <h2>User Manual for Human Learners</h2>
+      <p><em>A Guide for Teachers and Managers by Conni Saputra</em></p>
+      
+      <div class="guide-highlight">
+        <p>Some people learn just by watching, while others need to touch, try, fail, and repeat. That’s the core difference between passive learners and active/kinesthetic learners. The difference is not intelligence — it’s the method.</p>
+      </div>
+
+      <h3>PREAMBLE: The Core Distinction</h3>
+      <p>There are two fundamental types of learners:</p>
+      <ul>
+        <li><strong>Type A: Input-Heavy Learners (The "Sponges"):</strong> They learn by absorbing through listening, watching, reading, and observing. They have strong theory, strong comprehension, and are excellent at retaining details. However, when it’s time to perform, they may freeze because they’ve practiced understanding, not doing.</li>
+        <li><strong>Type B: Output-Heavy Learners (The "Makers"):</strong> They learn by creating and must speak, build, write, ask questions, or try the task with their hands. Their strength lies in execution, improvisation, and practical problem-solving. If forced to sit for a 2-hour lecture, they will zone out because the input channel is not their learning channel.</li>
+      </ul>
+
+      <h3>PHASE 1: THE DIAGNOSIS (Scanning the Room)</h3>
+      <p>Do not start teaching yet. You must identify who is in front of you using a pre-training survey or casual interview. If you are a manager, do not judge an employee who is quiet in meetings; they might be your deepest thinker.</p>
+
+      <h3>PHASE 2: THE MENU STRATEGY (Instructional Design)</h3>
+      <p>Never teach in a straight line. Instead, offer a "Menu" of learning paths so every brain finds its entry point.</p>
+      <ul>
+        <li><strong>Thinking Patterns:</strong> Start wide with a brainstorm for Divergent thinkers, and end narrow with a checklist for Convergent thinkers.</li>
+        <li><strong>Logic Preference:</strong> Provide multiple logic formats: symbolic (Excel/numbers), narrative (story), and spatial (graphs).</li>
+        <li><strong>Motivation Source:</strong> Hook intrinsic learners with mastery, extrinsic learners with practical rewards, and social learners with teamwork.</li>
+      </ul>
+
+      <h3>PHASE 3: THE ENVIRONMENT (Psychological Safety)</h3>
+      <p>Psychological safety matters more than content. Create zones (Quiet vs. Buzz), de-risk the authority so asking questions is a sign of intelligence, and manage the pressure based on whether learners are stress-driven or calm-driven.</p>
+
+      <h3>PHASE 4: THE TOOLKIT (The Digital & Practical)</h3>
+      <p>Introducing new digital tools often fails because the teaching style does not match the learning style. Tailor the digital onboarding:</p>
+      <ul>
+        <li><strong>The Sandbox (Experimental Learners):</strong> Provide a dummy account where they can practice with zero consequences.</li>
+        <li><strong>The Guide (Text/Tutorial Learners):</strong> Create a step-by-step PDF with screenshots and checklists.</li>
+        <li><strong>The Hybrid (Mixed Learners):</strong> Let them explore first, then give them a reference PDF when they get stuck.</li>
+        <li><strong>The Overwhelmed Learner (Digital Anxiety):</strong> Start with micro-tasks, sit beside them, and provide the simplest possible version.</li>
+      </ul>
+
+      <div style="text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+        <a href="https://www.linkedin.com/pulse/user-manual-human-learners-guide-teachers-managers-conni-saputra-r5itc" target="_blank" class="export-btn primary" style="display: inline-flex; text-decoration: none; padding: 0.8rem 1.5rem; font-size: 1rem;">
+          🔗 Read Full Article on LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+
+// ==================== QUESTION BANK ====================
+const QUESTIONS = [
+  // Phase 1: Input/Output
+  { id:'q1',  phase:1, text:'Learns best by watching or listening carefully before attempting anything.',  mode:'input' },
+  { id:'q2',  phase:1, text:'Understands fastest by jumping in and trying things immediately (hands-on).', mode:'output' },
+  { id:'q3',  phase:1, text:'Prefers having clear theory and full instructions before starting a task.',    mode:'input' },
+  { id:'q4',  phase:1, text:'Enjoys discovering how things work through trial, error, and repetition.',    mode:'output' },
+  // Phase 2: Cognitive & Language
+  { id:'q5',  phase:2, text:'Likes brainstorming many possibilities and exploring creative options (divergent).',       mode:'divergent' },
+  { id:'q6',  phase:2, text:'Prefers finding one correct answer with clear, defined steps (convergent).',              mode:'convergent' },
+  { id:'q7',  phase:2, text:'Thinks and communicates better through writing or reading (text-based).',                  mode:'text' },
+  { id:'q8',  phase:2, text:'Thinks and communicates better through speaking, visuals, or diagrams (verbal/spatial).', mode:'verbal' },
+  // Phase 3: Motivation & Environment
+  { id:'q9',  phase:3, text:'Motivated by mastering a skill for its own sake — curiosity, craft, growth.',       mode:'intrinsic' },
+  { id:'q10', phase:3, text:'Motivated by external rewards, grades, deadlines, or practical career outcomes.',   mode:'extrinsic' },
+  { id:'q11', phase:3, text:'Learns best when working, discussing, or collaborating with others.',               mode:'social' },
+  { id:'q12', phase:3, text:'Needs a quiet, distraction-free environment to think deeply and focus.',            mode:'quiet' },
+  { id:'q13', phase:3, text:'Thinks more clearly with background activity, discussion, or ambient energy.',      mode:'buzz' },
+  // Phase 4: Digital & Emotional
+  { id:'q14', phase:4, text:'With new software: naturally explores, clicks around, and figures it out (sandbox).',    mode:'explorer' },
+  { id:'q15', phase:4, text:'With new software: needs a step-by-step guide or tutorial to feel confident.',           mode:'structured' },
+  { id:'q16', phase:4, text:'Feels anxious with new technology or unexpected changes — prefers preparation.',         mode:'anxious' },
+  { id:'q17', phase:4, text:'Performs better under pressure, deadlines, or competitive challenges.',                  mode:'stress' },
+  { id:'q18', phase:4, text:'Needs calm preparation and advance notice — surprises reduce performance.',              mode:'calm' },
+];
+
+// ==================== RESEARCH-BACKED RECOMMENDATION BANK ====================
+// Each rec: { id, icon, text, why, how, citations[] }
+const REC_BANK = {
+  input_theory: {
+    icon:'📚', text:'Start with theory, demos, or handouts before practice (Kolb Phase 1: Abstract Conceptualization)',
+    why:'Input-heavy learners operate primarily through Abstract Conceptualization — they need to build a complete mental model before action. Forcing premature application creates cognitive overload and performance anxiety (Sweller, 1988). The brain encodes better when it has a framework to attach new information to.',
+    how:'<strong>Before class:</strong> Send pre-reading, a 1-page summary, or a short explainer video. <strong>In session:</strong> Start with a 10–15 min overview — clear objectives, definitions, and the "why." Use diagrams and flowcharts. <strong>Tip:</strong> Never say "we\'ll figure it out as we go" to this learner — it blocks their learning channel.',
+    citations:['Kolb, D.A. (1984) — Abstract Conceptualization stage, Experiential Learning Theory','Sweller, J. (1988) — Cognitive Load Theory: reducing extraneous load enables schema formation']
+  },
+  input_absorb: {
+    icon:'⏳', text:'Allow sufficient time to absorb information before expecting performance or output',
+    why:'Reflective Observation is the second stage of Kolb\'s cycle. Input-heavy learners need this processing time to consolidate information into long-term memory. Rushing to output before reflection significantly reduces retention and increases errors (Pashler et al., 2009).',
+    how:'<strong>Practical:</strong> After teaching a concept, give 5–10 mins of silent reading or note-taking time. Avoid immediately cold-calling for answers. Allow "thinking time" before group discussion. <strong>Assessment:</strong> Written reflections or take-home work suits them better than live hot-seats.',
+    citations:['Kolb, D.A. (1984) — Reflective Observation stage','Pashler et al. (2009) — Learning Styles: Concepts and Evidence; Psychological Science in the Public Interest']
+  },
+  input_visuals: {
+    icon:'🗂️', text:'Provide step-by-step manuals, screenshots, written guides, and dual-coded visual materials',
+    why:'Dual-Coding Theory (Paivio, 1986) shows that combining verbal text with corresponding visuals creates two memory traces instead of one, significantly increasing recall. Mayer\'s (2009) multimedia learning research confirms that well-designed text + image combinations outperform either channel alone by 89% in retention tests.',
+    how:'<strong>Create:</strong> PDF guides with numbered steps and screenshots. Annotated diagrams. Structured handouts with clear headers. <strong>Avoid:</strong> Dense walls of text without visual anchors. Verbal-only explanations without written notes. <strong>Template:</strong> Step 1 [image] → Step 2 [image] format works best.',
+    citations:['Paivio, A. (1986) — Dual Coding Theory: Mental Representations','Mayer, R.E. (2009) — Multimedia Learning (2nd ed.), Cambridge University Press']
+  },
+  output_sandbox: {
+    icon:'⚙️', text:'Begin immediately with hands-on activities, sandbox environments, or real tasks — skip long intros',
+    why:'Output-heavy learners primarily access learning through Active Experimentation and Concrete Experience (Kolb, 1984). Freeman et al. (2014) meta-analysis of 225 studies found active learning produced exam scores 6% higher and students in traditional lectures were 1.5× more likely to fail. The brain of an output learner literally doesn\'t activate during passive reception.',
+    how:'<strong>Digital tools:</strong> Create a dummy/sandbox account — let them click everything with no consequences. <strong>Processes:</strong> Give them a partial problem to solve before explaining the theory. <strong>First 5 mins:</strong> Should be doing, not listening. Use "try first, debrief after" structure. <strong>SMILE/apps:</strong> Dummy accounts before any training slides.',
+    citations:['Kolb, D.A. (1984) — Active Experimentation and Concrete Experience stages','Freeman, S. et al. (2014) — Active learning increases student performance in science, engineering, and mathematics. PNAS, 111(23)']
+  },
+  output_short: {
+    icon:'⚡', text:'Keep explanations and lectures under 10 minutes — pivot quickly to real tasks and application',
+    why:'Output-heavy learners have low passive tolerance — extended input blocks their learning channel. Freeman et al. (2014) found failure rates in lecture-only formats were 55% higher than active formats. The optimal input window before activity for these learners is approximately 7–10 minutes.',
+    how:'<strong>Structure:</strong> 5-min concept → 15-min activity → 5-min debrief → repeat. Use "micro-lectures." Chunked input with frequent do-it-now moments. <strong>Avoid:</strong> Slide decks over 10 minutes without interaction. One-way monologue. <strong>Use:</strong> Live demos they can mirror immediately.',
+    citations:['Freeman, S. et al. (2014) — PNAS meta-analysis: active learning outcomes','Kolb, D.A. (1984) — Concrete Experience as primary learning entry']
+  },
+  output_roleplay: {
+    icon:'🎭', text:'Use role-plays, simulations, case studies, and trial-and-error tasks as core learning methods',
+    why:'Situated learning theory (Lave & Wenger, 1991) shows that learning embedded in authentic activity is far more transferable. For output learners, simulations trigger the same neural pathways as real performance. Kolb\'s Active Experimentation stage is their highest retention zone.',
+    how:'<strong>Examples:</strong> Case study → solve it → debrief. Roleplay a difficult customer conversation. Simulate a reporting task in a safe environment. <strong>Failure is fine:</strong> For these learners, making and correcting mistakes IS the learning. Design activities where "getting it wrong" is safe and recoverable.',
+    citations:['Lave, J. & Wenger, E. (1991) — Situated Learning: Legitimate Peripheral Participation','Kolb, D.A. (1984) — Experiential Learning Theory']
+  },
+  balanced_menu: {
+    icon:'⚖️', text:'Use the "Menu Strategy": start broad (brainstorm) then narrow (checklist) — satisfies both input and output styles',
+    why:'In mixed rooms, forcing a single teaching style will always frustrate half the group. Kolb\'s full learning cycle (Concrete Experience → Reflection → Conceptualization → Experimentation) naturally serves both styles. The "wide then narrow" method activates divergent thinkers first, then closes with convergent closure.',
+    how:'<strong>Sequence:</strong> ① Brief overview (5 min) ② Brainstorm / explore possibilities ③ Mini-theory / structure ④ Try it hands-on ⑤ Checklist / structured recap. This full-cycle teaching is recommended for any mixed-ability group.',
+    citations:['Kolb, D.A. (1984) — Full Experiential Learning Cycle','Freeman, S. et al. (2014) — Active learning meta-analysis']
+  },
+  divergent: {
+    icon:'💡', text:'Incorporate open brainstorming, possibility-mapping, and creative exploration before narrowing to solutions',
+    why:'Divergent thinking (Guilford, 1967) is a distinct cognitive mode that produces more creative, flexible solutions. Forcing convergent thinkers\' methods onto divergent learners suppresses their best thinking. Divergent learners need an exploration phase before any definitive answer is required.',
+    how:'<strong>In class:</strong> Open brainstorms, mind maps, "what else could this be?" prompts. Allow unusual answers. Defer judgment during exploration. <strong>Transition:</strong> After brainstorm, use a structured decision matrix or checklist to close. Never skip the open phase for these learners.',
+    citations:['Guilford, J.P. (1967) — The Nature of Human Intelligence','Kolb, D.A. (1984) — Diverging learning style']
+  },
+  convergent: {
+    icon:'✅', text:'Provide clear frameworks, checklists, and single correct-answer structures to anchor convergent thinkers',
+    why:'Convergent learners (Kolb, 1984) achieve their best performance when tasks have clear, defined solutions. Ambiguity increases cognitive load and anxiety without improving outcomes. Structured tasks, decision trees, and checklists are the optimal format for this profile.',
+    how:'<strong>Tools:</strong> Step-by-step guides. Process flowcharts. Decision trees. Assessment rubrics. Numbered instructions. <strong>Communication:</strong> Clear objectives stated upfront. Defined success criteria. Avoid open-ended assignments without parameters for this profile.',
+    citations:['Kolb, D.A. (1984) — Converging learning style','Sweller, J. (1988) — Cognitive Load Theory']
+  },
+  text_pref: {
+    icon:'✍️', text:'Provide written materials, allow time for note-taking and writing responses — this learner processes best through text.',
+    why:'Some learners have a strong preference for written language (Paivio, 1986). They encode information more deeply when they can read and write. Mayer\'s (2009) research shows that text-based learners benefit from written summaries and handouts rather than purely verbal instruction.',
+    how:'<strong>Materials:</strong> Provide transcripts of verbal instructions, written summaries, and allow written reflections. Encourage note-taking and provide slides in advance. <strong>Assessment:</strong> Written assignments and essays suit them well.',
+    citations:['Paivio, A. (1986) — Dual Coding Theory','Mayer, R.E. (2009) — Multimedia Learning']
+  },
+  verbal_pref: {
+    icon:'🗣️', text:'Use verbal explanations, diagrams, and group discussions — this learner thinks best through speaking and visual aids.',
+    why:'Verbal/spatial learners benefit from auditory and visual channels. They externalize thinking through discussion and benefit from visual representations of concepts. Mayer\'s multimedia principles (2009) show that combining narration with diagrams is optimal for these learners.',
+    how:'<strong>In class:</strong> Encourage verbal explanations, use diagrams and concept maps. Allow them to talk through problems. Pair with a note-taker if needed. <strong>Materials:</strong> Use narrated videos, infographics, and encourage presentations.',
+    citations:['Mayer, R.E. (2009) — Multimedia Learning','Paivio, A. (1986) — Dual Coding Theory']
+  },
+  intrinsic: {
+    icon:'🔍', text:'Emphasise mastery, autonomy, and craft — frame learning as growth, not compliance',
+    why:'Self-Determination Theory (Ryan & Deci, 2000) identifies three innate psychological needs: autonomy, competence, and relatedness. Intrinsically motivated learners are already energised by the pursuit of mastery. External control or excessive reward structures can actually undermine ("crowd out") their natural motivation — a phenomenon called the "overjustification effect."',
+    how:'<strong>Language:</strong> "This will make you genuinely better at X" not "You need this for the exam." <strong>Design:</strong> Give choices in how they complete tasks. Offer stretch challenges. Allow self-directed exploration. Celebrate improvement, not just correct answers. <strong>Feedback:</strong> Focus on mastery and growth, not scoring.',
+    citations:['Ryan, R.M. & Deci, E.L. (2000) — Self-Determination Theory. American Psychologist, 55(1), 68–78','Deci, E.L. et al. (1999) — Meta-analysis on extrinsic rewards and intrinsic motivation. Psychological Bulletin']
+  },
+  extrinsic: {
+    icon:'🎯', text:'Connect learning directly to tangible outcomes: career value, exam results, efficiency gains, or practical rewards',
+    why:'Extrinsic motivation (Ryan & Deci, 2000) operates through identified and introjected regulation — learners engage when they clearly see the benefit. Without visible utility, engagement drops. Research shows that transparent outcome-framing significantly increases effort and persistence for this profile.',
+    how:'<strong>Framing:</strong> "After this, you can do X without asking for help." "This skill directly affects your performance review." <strong>Structure:</strong> Milestones and checkpoints. Clear grading criteria. Certificates or visible progress markers. <strong>Tip:</strong> Start every session by stating the concrete practical outcome.',
+    citations:['Ryan, R.M. & Deci, E.L. (2000) — Self-Determination Theory: extrinsic regulation','Skinner, B.F. (1938) — Operant conditioning and reinforcement schedules']
+  },
+  social: {
+    icon:'👥', text:'Prioritise pair work, group problem-solving, team discussions, and peer teaching',
+    why:'Social learning theory (Bandura, 1977) demonstrates that observational learning and social reinforcement are primary drivers of skill acquisition. Vygotsky\'s (1978) Zone of Proximal Development shows peer interaction accelerates learning beyond solo capacity. Freeman et al. (2014) confirms collaborative formats increase exam performance.',
+    how:'<strong>Formats:</strong> Think-Pair-Share activities. Group problem-solving tasks. Peer review and feedback. Teach-back exercises (where learners explain to each other). <strong>Caution:</strong> Social learners in isolated individual study lose motivation fast — ensure community touchpoints even in self-directed learning.',
+    citations:['Bandura, A. (1977) — Social Learning Theory','Vygotsky, L.S. (1978) — Zone of Proximal Development, Mind in Society','Freeman, S. et al. (2014) — Active learning meta-analysis, PNAS']
+  },
+  quiet_env: {
+    icon:'🔇', text:'Provide or recommend a quiet, low-distraction environment — noise significantly impairs this learner\'s performance',
+    why:'Cognitive capacity is a finite resource. Background noise consumes attentional resources that would otherwise be used for learning (Sweller, 1988; Baddeley, 1986). For learners with high quiet preference, even moderate noise can reduce working memory capacity and increase task completion time by 30–50%.',
+    how:'<strong>Physical:</strong> Designate quiet zones in learning spaces. Allow headphones or noise-cancelling options. For remote learners, provide asynchronous options. <strong>In group settings:</strong> Don\'t force quiet learners into continuous buzz environments. Allow individual processing time before group work.',
+    citations:['Sweller, J. (1988) — Cognitive Load Theory: working memory limitations','Baddeley, A. (1986) — Working Memory. Oxford University Press']
+  },
+  buzz_env: {
+    icon:'🗣️', text:'Embrace collaborative buzz — allow pair discussion, walk-and-talk, ambient energy during learning tasks',
+    why:'Some learners use social and environmental stimulation as a cognitive scaffold — external activation helps their processing. Freeman et al. (2014) meta-analysis found that collaborative active learning environments consistently outperformed silent individual formats. Social dialogue externalizes thinking for these learners.',
+    how:'<strong>Environment:</strong> Allow background music or ambient discussion. Design activities as conversations, not silent tasks. <strong>Methods:</strong> Walk-and-talk pairs. Standing discussions. Whiteboard collaboration. Don\'t interpret noise as distraction for this profile — it may be their optimal state.',
+    citations:['Freeman, S. et al. (2014) — Active learning meta-analysis, PNAS','Vygotsky, L.S. (1978) — Social formation of mind']
+  },
+  digital_sandbox: {
+    icon:'🧪', text:'Digital tools: create safe sandbox/dummy environments — let them click, explore, and break things freely',
+    why:'Exploratory learners learn digital tools through active experimentation (Kolb, 1984). The key psychological requirement is "safe failure" — consequence-free exploration. Research on discovery learning (Bruner, 1961) shows self-directed exploration produces stronger mental models than guided instruction for this profile.',
+    how:'<strong>Setup:</strong> Create dummy accounts with pre-populated test data. For spreadsheets: give a copy, not the original. For apps: use demo/training environments. <strong>Instruction:</strong> Give access and say "explore for 10 mins, then we\'ll discuss what you found." <strong>Debrief:</strong> Structure the reflection after, not before.',
+    citations:['Kolb, D.A. (1984) — Active Experimentation stage','Bruner, J.S. (1961) — The act of discovery. Harvard Educational Review']
+  },
+  digital_structured: {
+    icon:'📘', text:'Digital tools: provide PDF step-by-step guides, annotated screenshots, and progress checklists',
+    why:'Structured digital learners require predictability to manage cognitive load (Sweller, 1988). Without clear steps, ambiguity consumes working memory resources needed for actual skill acquisition. Written guides with visual anchors (Mayer, 2009) reduce extraneous cognitive load and allow focus on the learning task itself.',
+    how:'<strong>Create:</strong> Step-numbered PDFs with screenshot at each step. Video walkthroughs they can pause/rewind. Quick-reference cards. Checklists: "Have you done X? ✓" <strong>In training:</strong> Demo first (they watch), then they follow the guide simultaneously. Never say "just figure it out" to this learner.',
+    citations:['Sweller, J. (1988) — Cognitive Load Theory','Mayer, R.E. (2009) — Multimedia Learning: segmenting and signalling principles']
+  },
+  digital_anxious: {
+    icon:'🛟', text:'Digital tools: use micro-task scaffolding — one tiny step at a time, sit beside them, celebrate each milestone',
+    why:'Digital anxiety is a form of technology-related cognitive overload combined with self-efficacy threat (Bandura, 1997). The Vygotskian scaffold — a more capable person providing structured support at the learner\'s current threshold — directly addresses this. Breaking tasks into micro-steps reduces perceived threat and builds confidence incrementally.',
+    how:'<strong>First session:</strong> "Click here to open the menu. That\'s it for now." Then stop, celebrate, continue. <strong>Positioning:</strong> Sit beside them (not opposite) — reduces power dynamic and intimidation. <strong>Language:</strong> Avoid technical jargon. Use their terms. "The blue button" not "the API endpoint." <strong>Progress:</strong> Visible checkboxes — "3 of 5 steps done" — activates self-efficacy.',
+    citations:['Vygotsky, L.S. (1978) — Scaffolding and Zone of Proximal Development','Bandura, A. (1997) — Self-efficacy: The exercise of control']
+  },
+  stress_pressure: {
+    icon:'⏱️', text:'Use challenges, timers, and competitive elements to activate this learner\'s urgency-driven performance mode',
+    why:'The Yerkes-Dodson Law (1908) describes an inverted-U relationship between arousal and performance — moderate-to-high pressure optimizes performance for some individuals. "Pressure drivers" have a higher optimal arousal threshold. Research on challenge-based learning (Freeman et al., 2014) confirms that goal urgency significantly increases engagement and output for this profile.',
+    how:'<strong>Techniques:</strong> Time-boxed challenges ("You have 8 minutes"). Leaderboards or peer benchmarks. Progressive difficulty levels. "Beat your last score" targets. <strong>Design:</strong> Give clear goals with deadlines rather than open-ended tasks. Competition (with self or others) is a motivational lever — use it deliberately.',
+    citations:['Yerkes, R.M. & Dodson, J.D. (1908) — The relation of strength of stimulus to rapidity of habit formation. Journal of Comparative Neurology','Freeman, S. et al. (2014) — Challenge-based active learning, PNAS']
+  },
+  calm_advance: {
+    icon:'📅', text:'Provide materials and topics in advance — avoid surprises, pop-quizzes, and last-minute changes for this learner',
+    why:'For calm-processing learners, unexpected demands trigger disproportionate anxiety responses that consume cognitive resources and impair performance (Pashler et al., 2009). The cortisol response to surprise assessment conditions directly reduces working memory capacity. Advance notice allows pre-processing that dramatically improves performance outcomes.',
+    how:'<strong>Before sessions:</strong> Send agenda + topic 24–48 hrs early. Share what will be covered, what\'s expected. <strong>Assessment:</strong> Avoid sudden pop-quizzes. Pre-announced assessments with clear rubrics. <strong>Changes:</strong> Communicate any changes early — disruption to expected sequences is genuinely cognitively costly for this profile.',
+    citations:['Pashler, H. et al. (2009) — Learning Styles: Concepts and Evidence. Psychological Science in the Public Interest','Cognitive Load Theory — managing emotional load in assessment contexts']
+  },
+};
+
+// ==================== PHASE→QUESTIONS MAPPING ====================
+const PHASE_IDS = {1:['q1','q2','q3','q4'], 2:['q5','q6','q7','q8'], 3:['q9','q10','q11','q12','q13'], 4:['q14','q15','q16','q17','q18']};
+
+// ==================== DEFAULT STATE ====================
+const defaultAnswers = () => { const o={}; QUESTIONS.forEach(q=>o[q.id]=1); return o; };
+
+let learners = [];
+let activeId = null;
+
+function initEmptyState() {
+  const id = Date.now();
+  learners = [
+    { id: id, name: 'New Learner', createdAt: new Date().toISOString(), answers: defaultAnswers() }
+  ];
+  activeId = id;
+}
+
+function loadSampleData() {
+  if (!confirm('Load sample data? This will replace current profiles.')) return;
+  const id1 = Date.now()-1000, id2 = Date.now();
+  learners = [
+    { id:id1, name:'Sam Rivera', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q1:2, q3:2, q12:2, q15:2, q9:2, q7:2 } },
+    { id:id2, name:'Jordan Lee', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q2:2, q4:2, q13:2, q14:2, q17:2, q8:2 } },
+  ];
+  activeId = id1;
+  refreshSelect();
+  renderQuestions();
+  updateCard();
+  toast('Sample data loaded');
+}
+
+// ==================== DOM REFS ====================
+const $ = id => document.getElementById(id);
+const sel = $('learnerSelect');
+const countSpan = $('learnerCount');
+
+// ==================== RENDER CHECKLIST ====================
+function renderQuestions() {
+  const active = learners.find(l=>l.id===activeId);
+  if (!active) return;
+  const ans = active.answers;
+
+  [1,2,3,4].forEach(ph => {
+    const container = $(`phase${ph}`);
+    container.innerHTML = '';
+    PHASE_IDS[ph].forEach(qid => {
+      const q = QUESTIONS.find(x=>x.id===qid);
+      const val = ans[qid]!==undefined ? ans[qid] : 1;
+      const item = document.createElement('div');
+      item.className = 'question-item';
+      item.dataset.id = qid;
+      item.innerHTML = `<div class="q-text">${q.text}</div>
+        <div class="q-options">
+          ${[[2,'Often','sel-often'],[1,'Sometimes','sel-sometimes'],[0,'Rarely','sel-rarely']].map(([v,lbl,cls])=>`
+          <div class="q-option ${val===v?cls:''}" data-v="${v}"><span class="dot"></span>${lbl}</div>`).join('')}
+        </div>`;
+      container.appendChild(item);
+    });
+  });
+
+  document.querySelectorAll('.q-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      const item = this.closest('.question-item');
+      const qid = item.dataset.id;
+      const v = parseInt(this.dataset.v);
+      item.querySelectorAll('.q-option').forEach(o => o.className = 'q-option');
+      this.classList.add(['sel-rarely','sel-sometimes','sel-often'][v]);
+      const al = learners.find(l=>l.id===activeId);
+      if (al) { al.answers[qid]=v; updateCard(); }
+    });
+  });
+  updateCompleted();
+}
+
+function updateCompleted() {
+  const active = learners.find(l=>l.id===activeId);
+  if (!active) return;
+  const ans = active.answers;
+  const done = QUESTIONS.filter(q=>ans[q.id]!==undefined).length;
+  $('completedCount').textContent = `${done}/${QUESTIONS.length}`;
+}
+
+// ==================== COMPUTE PROFILE ====================
+function score(ans, ...qids) {
+  return qids.reduce((sum,id)=>sum+(ans[id]!==undefined?ans[id]:1),0);
+}
+function pct(val, max) { return Math.round((val/max)*100); }
+
+function computeProfile(ans) {
+  const inputS  = score(ans,'q1','q3');
+  const outputS = score(ans,'q2','q4');
+  const maxIO = 4;
+
+  let primary;
+  if (inputS > outputS+1)     primary = 'Input-Heavy (Sponge)';
+  else if (outputS > inputS+1) primary = 'Output-Heavy (Maker)';
+  else                          primary = 'Balanced / Mixed';
+
+  const divS = score(ans,'q5');
+  const conS = score(ans,'q6');
+  let thinking = divS > conS ? 'Divergent Thinker' : conS > divS ? 'Convergent Thinker' : 'Balanced Thinker';
+
+  // communication preference from q7 and q8
+  const textS = score(ans,'q7');
+  const verbalS = score(ans,'q8');
+  let communication = (textS > verbalS) ? 'Text-based' : (verbalS > textS) ? 'Verbal/Spatial' : 'Mixed';
+
+  const stressS = score(ans,'q17');
+  const calmS   = score(ans,'q18');
+  let processing;
+  if (calmS>=2 && stressS<=0)  processing = 'Slow / Reflective';
+  else if (stressS>=2 && calmS<=0) processing = 'Fast / Urgency-Driven';
+  else processing = 'Moderate / Mixed';
+
+  const intrinsicS = score(ans,'q9');
+  const extrinsicS = score(ans,'q10');
+  const socialS    = score(ans,'q11');
+
+  const quietS = score(ans,'q12');
+  const buzzS  = score(ans,'q13');
+
+  const expS  = score(ans,'q14');
+  const strS  = score(ans,'q15');
+  const anxS  = score(ans,'q16');
+
+  // build recommendations list
+  const recs = [];
+  if (primary.includes('Input')) {
+    recs.push(REC_BANK.input_theory);
+    recs.push(REC_BANK.input_absorb);
+    recs.push(REC_BANK.input_visuals);
+  } else if (primary.includes('Output')) {
+    recs.push(REC_BANK.output_sandbox);
+    recs.push(REC_BANK.output_short);
+    recs.push(REC_BANK.output_roleplay);
+  } else {
+    recs.push(REC_BANK.balanced_menu);
+  }
+
+  if (score(ans,'q5') >= 2) recs.push(REC_BANK.divergent);
+  if (score(ans,'q6') >= 2) recs.push(REC_BANK.convergent);
+  if (score(ans,'q7') >= 2) recs.push(REC_BANK.text_pref);
+  if (score(ans,'q8') >= 2) recs.push(REC_BANK.verbal_pref);
+
+  // motivation
+  const motMax = Math.max(intrinsicS, extrinsicS, socialS);
+  if (intrinsicS === motMax && motMax>0) recs.push(REC_BANK.intrinsic);
+  if (extrinsicS === motMax && motMax>0 && extrinsicS>0) recs.push(REC_BANK.extrinsic);
+  if (socialS    === motMax && motMax>0 && socialS>0)    recs.push(REC_BANK.social);
+
+  // environment
+  if (quietS > buzzS) recs.push(REC_BANK.quiet_env);
+  else if (buzzS > quietS) recs.push(REC_BANK.buzz_env);
+
+  // digital
+  const digMax = Math.max(expS, strS, anxS);
+  if (expS === digMax && digMax>0) recs.push(REC_BANK.digital_sandbox);
+  if (strS === digMax && digMax>0 && strS>0) recs.push(REC_BANK.digital_structured);
+  if (anxS === digMax && digMax>0 && anxS>0) recs.push(REC_BANK.digital_anxious);
+
+  // processing
+  if (stressS >= 2) recs.push(REC_BANK.stress_pressure);
+  if (calmS   >= 2) recs.push(REC_BANK.calm_advance);
+
+  // dedup
+  const seen = new Set();
+  const unique = recs.filter(r=>{ if(seen.has(r.text)) return false; seen.add(r.text); return true; });
+
+  // chips
+  const motChips = [];
+  if (intrinsicS===motMax && motMax>0) motChips.push({lbl:'🔍 Intrinsic', cls:'green'});
+  if (extrinsicS===motMax && motMax>0 && extrinsicS>0) motChips.push({lbl:'🎯 Extrinsic', cls:'amber'});
+  if (socialS===motMax && motMax>0 && socialS>0) motChips.push({lbl:'👥 Social', cls:'blue'});
+  if (!motChips.length) motChips.push({lbl:'📌 Mixed', cls:'blue'});
+
+  const envChips = [];
+  if (quietS > buzzS) envChips.push({lbl:'🔇 Quiet Zone', cls:'blue'});
+  else if (buzzS > quietS) envChips.push({lbl:'🗣️ Buzz Zone', cls:'amber'});
+  else envChips.push({lbl:'⚖️ Flexible', cls:'green'});
+
+  const digChips = [];
+  if (expS===digMax && digMax>0) digChips.push({lbl:'🧪 Explorer', cls:'green'});
+  if (strS===digMax && digMax>0 && strS>0) digChips.push({lbl:'📘 Structured', cls:'blue'});
+  if (anxS===digMax && digMax>0 && anxS>0) digChips.push({lbl:'🛟 Guided', cls:'red'});
+  if (!digChips.length) digChips.push({lbl:'📱 Hybrid', cls:'amber'});
+
+  return { primary, thinking, processing, communication, motChips, envChips, digChips, recs:unique,
+    scores:{ input:pct(inputS,maxIO), output:pct(outputS,maxIO), intrinsic:pct(intrinsicS,2), social:pct(socialS,2) } };
+}
+
+// ==================== UPDATE ID CARD ====================
+function updateCard() {
+  const active = learners.find(l=>l.id===activeId);
+  if (!active) return;
+  const p = computeProfile(active.answers);
+
+  $('idName').textContent = active.name;
+  $('idTimestamp').textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  $('idPrimary').textContent = p.primary;
+  $('idProcessing').textContent = p.processing;
+  $('idThinking').textContent = p.thinking;
+  $('idComm').textContent = p.communication;
+
+  const chipsHtml = chips => chips.map(c=>`<span class="chip ${c.cls}">${c.lbl}</span>`).join('');
+  $('idMotChips').innerHTML = chipsHtml(p.motChips);
+  $('idEnvChips').innerHTML = chipsHtml(p.envChips);
+  $('idDigChips').innerHTML = chipsHtml(p.digChips);
+
+  // score bars
+  const bars = {input:p.scores.input, output:p.scores.output, intrinsic:p.scores.intrinsic, social:p.scores.social};
+  Object.entries(bars).forEach(([k,v])=>{
+    $(`bar-${k}`).style.width = v+'%';
+    $(`pct-${k}`).textContent = v+'%';
+  });
+
+  // recommendations
+  $('recCount').textContent = `${p.recs.length} items`;
+  $('recList').innerHTML = p.recs.map((r,i)=>`
+    <div class="rec-item" onclick="toggleRec(${i})">
+      <div class="rec-item-top">
+        <span class="rec-icon">${r.icon}</span>
+        <span class="rec-text">${r.text}</span>
+        <button class="rec-expand-btn" id="rbtn${i}">+ why &amp; how</button>
+      </div>
+      <div class="rec-detail" id="rdtl${i}">
+        <div class="rec-detail-inner">
+          <div class="rec-why"><strong style="color:#a0c8e0">Why this works:</strong> ${r.why}</div>
+          <div class="rec-how"><strong>How to apply it:</strong> ${r.how}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:0.5rem;">
+            ${r.citations.map(c=>`<span class="rec-citation">📖 ${c}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  updateCompleted();
+}
+
+window.toggleRec = function(i) {
+  const dtl = $(`rdtl${i}`);
+  const btn = $(`rbtn${i}`);
+  const open = dtl.classList.toggle('open');
+  if (btn) btn.textContent = open ? '− collapse' : '+ why & how';
+};
+
+// ==================== LEARNER MANAGEMENT ====================
+function refreshSelect() {
+  sel.innerHTML = learners.map(l=>`<option value="${l.id}" ${l.id===activeId?'selected':''}>${l.name}</option>`).join('');
+  countSpan.textContent = `${learners.length} learner${learners.length!==1?'s':''}`;
+}
+
+function setActive(id) {
+  activeId = id;
+  refreshSelect();
+  renderQuestions();
+  updateCard();
+}
+
+function addLearner() {
+  const id = Date.now();
+  learners.push({ id, name:`Learner ${learners.length+1}`, createdAt:new Date().toISOString(), answers:defaultAnswers() });
+  setActive(id);
+  toast('New learner created');
+}
+
+function renameLearner() {
+  const al = learners.find(l=>l.id===activeId);
+  if (!al) return;
+  const n = prompt('Enter new name:', al.name);
+  if (n && n.trim()) { al.name=n.trim(); refreshSelect(); updateCard(); toast(`Renamed to "${al.name}"`); }
+}
+
+function deleteLearner() {
+  if (learners.length<=1) { toast('Cannot delete the only learner. Add a new one first.','error'); return; }
+  const al = learners.find(l=>l.id===activeId);
+  if (!confirm(`Delete "${al?.name}"? This cannot be undone.`)) return;
+  learners = learners.filter(l=>l.id!==activeId);
+  setActive(learners[0].id);
+  toast('Learner deleted');
+}
+
+function resetAnswers() {
+  if (!confirm('Reset all answers for this learner to "Sometimes"?')) return;
+  const al = learners.find(l=>l.id===activeId);
+  if (al) { al.answers=defaultAnswers(); renderQuestions(); updateCard(); toast('Answers reset'); }
+}
+
+// ==================== SAVE / LOAD JSON ====================
+function saveAllJson() {
+  const data = { version:2, exportedAt:new Date().toISOString(), learners:learners.map(l=>({...l})) };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='learner_profiles.json'; a.click();
+  URL.revokeObjectURL(url);
+  toast('Profiles saved as JSON');
+}
+
+function saveSingleJson() {
+  const al = learners.find(l=>l.id===activeId);
+  if (!al) return;
+  const profile = computeProfile(al.answers);
+  const data = { version:2, exportedAt:new Date().toISOString(), learner:al, computedProfile:{ primary:profile.primary, processing:profile.processing, thinking:profile.thinking, communication:profile.communication, motivationChips:profile.motChips.map(c=>c.lbl), environmentChips:profile.envChips.map(c=>c.lbl), digitalChips:profile.digChips.map(c=>c.lbl), recommendations:profile.recs.map(r=>({text:r.text, citations:r.citations})) } };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const n = al.name.replace(/\s+/g,'_').toLowerCase();
+  const a = document.createElement('a'); a.href=url; a.download=`learner_${n}.json`; a.click();
+  URL.revokeObjectURL(url);
+  toast(`Card saved: ${al.name}`);
+}
+
+function loadJson(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.learners && Array.isArray(data.learners)) {
+        if (!confirm(`Load ${data.learners.length} learner(s) from file? This will replace current profiles.`)) return;
+        learners = data.learners.map(l=>({ id:l.id||Date.now()+Math.random(), name:l.name||'Unnamed', createdAt:l.createdAt||new Date().toISOString(), answers:{ ...defaultAnswers(), ...(l.answers||{}) } }));
+        activeId = learners[0].id;
+        refreshSelect(); renderQuestions(); updateCard();
+        toast(`Loaded ${learners.length} learner(s)`);
+      } else if (data.learner) {
+        const l = data.learner;
+        const newL = { id:Date.now(), name:l.name||'Imported', createdAt:l.createdAt||new Date().toISOString(), answers:{ ...defaultAnswers(), ...(l.answers||{}) } };
+        learners.push(newL);
+        setActive(newL.id);
+        toast(`Imported: ${newL.name}`);
+      } else { toast('Invalid file format','error'); }
+    } catch(err) { toast('Failed to parse JSON file','error'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ==================== EXPORT CSV ====================
+function exportCSV() {
+  const headers = ['Name','Primary Style','Processing','Thinking','Communication','Motivation','Environment','Digital','Recommendations'];
+  const rows = learners.map(l=>{
+    const p = computeProfile(l.answers);
+    return [l.name, p.primary, p.processing, p.thinking, p.communication, p.motChips.map(c=>c.lbl).join(' | '), p.envChips.map(c=>c.lbl).join(' | '), p.digChips.map(c=>c.lbl).join(' | '), p.recs.map(r=>r.text).join(' · ')];
+  });
+  const csv = [headers, ...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='learner_profiles.csv'; a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exported');
+}
+
+// ==================== EXPORT HTML ====================
+function exportHTML() {
+  let cards = learners.map(l=>{
+    const p = computeProfile(l.answers);
+    return `<div class="card">
+      <h2>${l.name}</h2>
+      <table>
+        <tr><td><strong>Primary Style</strong></td><td>${p.primary}</td></tr>
+        <tr><td><strong>Processing</strong></td><td>${p.processing}</td></tr>
+        <tr><td><strong>Thinking</strong></td><td>${p.thinking}</td></tr>
+        <tr><td><strong>Communication</strong></td><td>${p.communication}</td></tr>
+        <tr><td><strong>Motivation</strong></td><td>${p.motChips.map(c=>c.lbl).join(', ')}</td></tr>
+        <tr><td><strong>Environment</strong></td><td>${p.envChips.map(c=>c.lbl).join(', ')}</td></tr>
+        <tr><td><strong>Digital Style</strong></td><td>${p.digChips.map(c=>c.lbl).join(', ')}</td></tr>
+      </table>
+      <h3 style="margin-top:1rem">Research-Backed Guidance</h3>
+      <ul>${p.recs.map(r=>`<li><strong>${r.text}</strong><br><em>Why:</em> ${r.why}<br><em>Citations:</em> ${r.citations.join('; ')}</li>`).join('')}</ul>
+    </div>`;
+  }).join('');
+  const html = `<!DOCTYPE html><html><head><title>Learner ID Report</title><meta charset="UTF-8">
+  <style>body{font-family:Georgia,serif;max-width:900px;margin:0 auto;padding:2rem;background:#f9f7f2;color:#1a2634}
+  .card{border:2px solid #1e4a6f;border-radius:12px;padding:1.5rem;margin-bottom:2rem;page-break-after:always;background:white}
+  h2{color:#0d1b2a;font-size:1.5rem;border-bottom:2px solid #e8a940;padding-bottom:0.5rem;margin-bottom:1rem}
+  h3{color:#1e4a6f;font-size:1.1rem;margin-bottom:0.5rem}
+  table{width:100%;border-collapse:collapse}td{padding:0.5rem;border-bottom:1px solid #e2d8cc;vertical-align:top}td:first-child{width:35%;color:#4a6a84}
+  ul{margin-top:0.5rem;padding-left:1.2rem}li{margin-bottom:1rem;line-height:1.6}
+  em{color:#4a6a84}
+  footer{text-align:center;margin-top:2rem;color:#888;font-size:0.8rem}</style>
+  </head><body>
+  <h1 style="text-align:center;color:#0d1b2a;margin-bottom:2rem">🧠 Learner ID · Intelligence Profiles Report</h1>
+  <p style="text-align:center;color:#888;margin-bottom:2rem">Generated: ${new Date().toLocaleString()} · Based on Kolb (1984), Freeman et al. (2014), Ryan & Deci (2000)</p>
+  ${cards}
+  <footer>Sources: Kolb (1984) · Freeman et al. (2014) · Ryan & Deci (2000) · Vygotsky (1978) · Sweller (1988) · Bandura (1977)</footer>
+  </body></html>`;
+  const blob = new Blob([html],{type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='learner_report.html'; a.click();
+  URL.revokeObjectURL(url);
+  toast('HTML report exported');
+}
+
+// ==================== TOAST ====================
+let toastTimer;
+function toast(msg, type='success') {
+  const el = $('toast');
+  el.textContent = (type==='success'?'✓ ':'⚠ ')+msg;
+  el.className = `toast show${type==='error'?' error':''}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.className='toast'; }, 2800);
+}
+
+// ==================== BIND EVENTS ====================
+$('addBtn').addEventListener('click', addLearner);
+$('renameBtn').addEventListener('click', renameLearner);
+$('deleteBtn').addEventListener('click', deleteLearner);
+$('resetBtn').addEventListener('click', resetAnswers);
+sel.addEventListener('change', e=>setActive(parseInt(e.target.value)));
+$('saveJsonBtn').addEventListener('click', saveAllJson);
+$('loadJsonInput').addEventListener('change', loadJson);
+$('exportPdfBtn').addEventListener('click', ()=>window.print());
+$('exportCsvBtn').addEventListener('click', exportCSV);
+$('exportHtmlBtn').addEventListener('click', exportHTML);
+$('guidanceBtn').addEventListener('click', () => { $('guidanceModal').classList.add('show'); });
+$('closeGuidanceBtn').addEventListener('click', () => { $('guidanceModal').classList.remove('show'); });
+$('guidanceModal').addEventListener('click', e => { if(e.target === $('guidanceModal')) $('guidanceModal').classList.remove('show'); });
+$('exportSingleJsonBtn').addEventListener('click', saveSingleJson);
+$('loadSampleBtn').addEventListener('click', loadSampleData);
+
+
+// ==================== INIT ====================
+initEmptyState(); // Sekarang aplikasi mulai dengan keadaan kosong
+refreshSelect();
+renderQuestions();
+updateCard();
+
+})();
+</script>
+</body>
+</html>
