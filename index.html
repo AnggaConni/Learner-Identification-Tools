@@ -578,6 +578,67 @@ svg.ring circle { transition: stroke-dashoffset 0.4s ease; }
 .guide-section strong { color: var(--navy-light); }
 .guide-highlight { background: rgba(74,144,196,0.1); padding: 1rem 1.5rem; border-left: 4px solid var(--sky); border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
 
+/* =========================================================
+   PRINT / PDF EXPORT STYLES
+   ========================================================= */
+@media print {
+  /* 1. Sembunyikan elemen yang tidak perlu di PDF */
+  header, 
+  .card, /* Menyembunyikan panel checklist kiri */
+  .export-section, 
+  .toast, 
+  .modal-overlay,
+  .id-panel-header .export-btn /* Sembunyikan tombol-tombol di header ID Card */ {
+    display: none !important;
+  }
+
+  /* 2. Reset background halaman agar bersih */
+  body {
+    background: white !important;
+    background-image: none !important;
+    padding: 0 !important;
+  }
+  .app {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .layout {
+    display: block !important; /* Matikan grid */
+  }
+
+  /* 3. Maksimalkan ukuran ID Card untuk kertas A4 */
+  .id-panel {
+    position: static !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* 4. Paksa BUKA SEMUA tab Guidance */
+  .rec-detail {
+    max-height: none !important; /* Hilangkan batasan tinggi */
+    overflow: visible !important;
+  }
+  .rec-expand-btn {
+    display: none !important; /* Sembunyikan tombol "+ why & how" karena sudah otomatis terbuka */
+  }
+
+  /* 5. Cegah elemen terpotong di pergantian halaman */
+  .id-badge, 
+  .score-section, 
+  .rec-item {
+    page-break-inside: avoid !important; 
+    break-inside: avoid !important;
+  }
+
+  /* 6. Paksa browser mencetak warna background gelap (Support Chrome, Safari, Edge, Firefox) */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
 </style>
 </head>
 <body>
