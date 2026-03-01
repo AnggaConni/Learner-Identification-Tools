@@ -598,64 +598,75 @@ svg.ring circle { transition: stroke-dashoffset 0.4s ease; }
 .guide-highlight { background: rgba(74,144,196,0.1); padding: 1rem 1.5rem; border-left: 4px solid var(--sky); border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
 
 /* =========================================================
-   PRINT / PDF EXPORT STYLES
+   PRINT / PDF EXPORT STYLES (LANYARD BADGE MODE)
    ========================================================= */
 @media print {
-  /* 1. Sembunyikan elemen yang tidak perlu di PDF */
-  header, 
-  .card, /* Menyembunyikan panel checklist kiri */
-  .export-section, 
-  .toast, 
-  .modal-overlay,
-  .id-panel-header .export-btn /* Sembunyikan tombol-tombol di header ID Card */ {
-    display: none !important;
-  }
+  /* 1. Sembunyikan elemen web utama */
+  body { background: white !important; padding: 0 !important; margin: 0 !important; }
+  header, .app, .toast, .modal-overlay, #print-area-container { display: none !important; }
+  
+  /* Tampilkan area khusus print */
+  #print-area { display: block !important; width: 100%; }
 
-  /* 2. Reset background halaman agar bersih */
-  body {
-    background: white !important;
-    background-image: none !important;
-    padding: 0 !important;
-  }
-  .app {
-    padding: 0 !important;
-    max-width: 100% !important;
-  }
-  .layout {
-    display: block !important; /* Matikan grid */
-  }
-
-  /* 3. Maksimalkan ukuran ID Card untuk kertas A4 */
-  .id-panel {
-    position: static !important;
-    width: 100% !important;
-    box-shadow: none !important;
-    border-radius: 12px !important;
-    padding-bottom: 2rem !important;
-  }
-
-  /* 4. Paksa BUKA SEMUA tab Guidance */
-  .rec-detail {
-    max-height: none !important; /* Hilangkan batasan tinggi */
-    overflow: visible !important;
-  }
-  .rec-expand-btn {
-    display: none !important; /* Sembunyikan tombol "+ why & how" karena sudah otomatis terbuka */
-  }
-
-  /* 5. Cegah elemen terpotong di pergantian halaman */
-  .id-badge, 
-  .score-section, 
-  .rec-item {
-    page-break-inside: avoid !important; 
-    break-inside: avoid !important;
-  }
-
-  /* 6. Paksa browser mencetak warna background gelap (Support Chrome, Safari, Edge, Firefox) */
+  /* 2. Format Kertas A6 Portrait (Bentuk Badge Lanyard) */
+  @page { size: A6 portrait; margin: 0; }
+  
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+
+  /* 3. Desain Kartu Lanyard */
+  .badge-page {
+    width: 100%;
+    height: 100vh; /* Memenuhi 1 halaman A6 */
+    page-break-after: always;
+    break-after: page;
+    background: var(--navy);
+    background-image: radial-gradient(ellipse at 50% 10%, #1e3a5a 0%, var(--navy) 70%);
+    color: white;
+    padding: 2.5rem 1.8rem;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Pemanis: Lubang Lanyard di bagian atas */
+  .lanyard-hole {
+    width: 60px;
+    height: 14px;
+    background: white;
+    border-radius: 20px;
+    margin: 0 auto 1.5rem auto;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+
+  /* Tipografi & Grid khusus Print */
+  .bp-header { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--sky-light); text-align: center; margin-bottom: 1.5rem; }
+  .bp-name { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: white; margin-bottom: 0.2rem; text-align: center; }
+  .bp-sub { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--slate); text-align: center; letter-spacing: 1px; margin-bottom: 2rem; }
+  
+  .bp-grid { display: grid; grid-template-columns: 110px 1fr; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .bp-lbl { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--sky-light); text-transform: uppercase; }
+  .bp-val { font-size: 0.95rem; font-weight: 600; }
+
+  .bp-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2rem; }
+  
+  .bp-bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
+  .bp-bar-lbl { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--slate); width: 80px; }
+  .bp-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 4px; }
+  .bp-bar-fill { height: 100%; border-radius: 4px; }
+  .bp-bar-pct { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--slate); width: 30px; text-align: right; }
+
+  /* Bagian Belakang (Guidance) */
+  .bp-recs { display: flex; flex-direction: column; gap: 1rem; }
+  .bp-rec-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(74,144,196,0.2); border-radius: 12px; padding: 1rem; display: flex; gap: 0.8rem; align-items: flex-start; }
+  .bp-rec-icon { font-size: 1.2rem; }
+  .bp-rec-text { font-size: 0.85rem; font-weight: 500; line-height: 1.4; color: white; }
+  
+  .bp-footer { margin-top: auto; text-align: center; font-family: 'DM Mono', monospace; font-size: 0.6rem; color: rgba(255,255,255,0.3); padding-top: 1rem; }
 }
 
 </style>
@@ -1122,16 +1133,27 @@ function initEmptyState() {
 
 function loadSampleData() {
   if (!confirm('Load sample data? This will replace current profiles.')) return;
-  const id1 = Date.now()-1000, id2 = Date.now();
+  
+  // Membuat 5 ID unik berdasarkan waktu
+  const id1 = Date.now()-4000, 
+        id2 = Date.now()-3000, 
+        id3 = Date.now()-2000, 
+        id4 = Date.now()-1000, 
+        id5 = Date.now();
+        
   learners = [
     { id:id1, name:'Sam Rivera', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q1:2, q3:2, q12:2, q15:2, q9:2, q7:2 } },
     { id:id2, name:'Jordan Lee', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q2:2, q4:2, q13:2, q14:2, q17:2, q8:2 } },
+    { id:id3, name:'Alex Chen', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q5:2, q9:2, q18:2, q11:2, q1:1, q2:1 } },
+    { id:id4, name:'Maria Garcia', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q2:2, q4:2, q11:2, q10:2, q8:2 } },
+    { id:id5, name:'David Kim', createdAt: new Date().toISOString(), answers:{ ...defaultAnswers(), q1:2, q3:2, q6:2, q7:2, q15:2, q16:2 } }
   ];
+  
   activeId = id1;
   refreshSelect();
   renderQuestions();
   updateCard();
-  toast('Sample data loaded');
+  toast('5 Sample data loaded'); // Update pesan notifikasi
 }
 
 // ==================== DOM REFS ====================
@@ -1554,6 +1576,85 @@ function toast(msg, type='success') {
   toastTimer = setTimeout(()=>{ el.className='toast'; }, 2800);
 }
 
+// ==================== PRINT ALL BADGES (LANYARD MODE) ====================
+function printAllBadges() {
+  if (learners.length === 0) return toast('No learners to print', 'error');
+
+  // Siapkan kontainer rahasia untuk print jika belum ada
+  let printArea = $('print-area');
+  if (!printArea) {
+    printArea = document.createElement('div');
+    printArea.id = 'print-area';
+    document.body.appendChild(printArea);
+  }
+  
+  let html = '';
+
+  // Looping semua orang
+  learners.forEach(l => {
+    const p = computeProfile(l.answers);
+    const chipsHtml = chips => chips.map(c=>`<span class="chip ${c.cls}">${c.lbl}</span>`).join('');
+
+    // --- HALAMAN 1 : DEPAN (ID CARD) ---
+    html += `
+    <div class="badge-page">
+      <div class="lanyard-hole"></div>
+      <div class="bp-header">🪪 Learner's ID Card</div>
+      <div class="bp-name">${l.name}</div>
+      <div class="bp-sub">COGNITIVE & BEHAVIORAL PROFILE</div>
+      
+      <div class="bp-grid">
+        <div class="bp-lbl">Primary</div><div class="bp-val">${p.primary}</div>
+        <div class="bp-lbl">Processing</div><div class="bp-val">${p.processing}</div>
+        <div class="bp-lbl">Thinking</div><div class="bp-val">${p.thinking}</div>
+        <div class="bp-lbl">Communication</div><div class="bp-val">${p.communication}</div>
+      </div>
+
+      <div class="bp-chips">
+        ${chipsHtml(p.motChips)} ${chipsHtml(p.envChips)} ${chipsHtml(p.digChips)}
+      </div>
+
+      <div style="margin-top: auto;">
+        <div class="bp-bar-row"><span class="bp-bar-lbl">Input</span><div class="bp-bar-track"><div class="bp-bar-fill" style="width:${p.scores.input}%;background:linear-gradient(90deg,#4a90c4,#7eb8e0);"></div></div><span class="bp-bar-pct">${p.scores.input}%</span></div>
+        <div class="bp-bar-row"><span class="bp-bar-lbl">Output</span><div class="bp-bar-track"><div class="bp-bar-fill" style="width:${p.scores.output}%;background:linear-gradient(90deg,#e8a940,#f5c96a);"></div></div><span class="bp-bar-pct">${p.scores.output}%</span></div>
+        <div class="bp-bar-row"><span class="bp-bar-lbl">Intrinsic</span><div class="bp-bar-track"><div class="bp-bar-fill" style="width:${p.scores.intrinsic}%;background:linear-gradient(90deg,#4caf86,#90e0c0);"></div></div><span class="bp-bar-pct">${p.scores.intrinsic}%</span></div>
+        <div class="bp-bar-row"><span class="bp-bar-lbl">Social</span><div class="bp-bar-track"><div class="bp-bar-fill" style="width:${p.scores.social}%;background:linear-gradient(90deg,#9370db,#c0a0f0);"></div></div><span class="bp-bar-pct">${p.scores.social}%</span></div>
+      </div>
+    </div>`;
+
+    // --- HALAMAN 2 : BELAKANG (GUIDANCE) ---
+    html += `
+    <div class="badge-page">
+      <div class="lanyard-hole"></div>
+      <div class="bp-header">📘 Research-Backed Guidance</div>
+      <div class="bp-sub" style="margin-bottom: 1.5rem;">For: ${l.name}</div>
+      
+      <div class="bp-recs">
+        ${p.recs.map(r => `
+          <div class="bp-rec-item">
+            <div class="bp-rec-icon">${r.icon}</div>
+            <div class="bp-rec-text">${r.text}</div>
+          </div>
+        `).join('')}
+      </div>
+      
+      <div class="bp-footer">
+        Learner Adaptation Guide • Conni Saputra
+      </div>
+    </div>`;
+  });
+
+  // Masukkan HTML ke print area lalu panggil dialog print
+  printArea.innerHTML = html;
+  
+  // Beri sedikit jeda agar DOM ter-render sebelum dialog print muncul
+  setTimeout(() => {
+    window.print();
+    // Bersihkan DOM setelah print dialog ditutup (opsional)
+    setTimeout(() => { printArea.innerHTML = ''; }, 1000); 
+  }, 100);
+}
+
 // ==================== BIND EVENTS ====================
 $('addBtn').addEventListener('click', addLearner);
 $('renameBtn').addEventListener('click', renameLearner);
@@ -1562,7 +1663,7 @@ $('resetBtn').addEventListener('click', resetAnswers);
 sel.addEventListener('change', e=>setActive(parseInt(e.target.value)));
 $('saveJsonBtn').addEventListener('click', saveAllJson);
 $('loadJsonInput').addEventListener('change', loadJson);
-$('exportPdfBtn').addEventListener('click', ()=>window.print());
+$('exportPdfBtn').addEventListener('click', printAllBadges);
 $('exportCsvBtn').addEventListener('click', exportCSV);
 $('exportHtmlBtn').addEventListener('click', exportHTML);
 $('guidanceBtn').addEventListener('click', () => { $('guidanceModal').classList.add('show'); });
